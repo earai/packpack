@@ -7,5 +7,5 @@ def test_proof_model():
     m = build_proof_model()
     with m:
         trace = pm.sample(50)
-    print("blah")
+    assert trace.report.ok
 
