@@ -7,3 +7,8 @@ services:
     working_dir: /opt/code/packpack
     volumes:
       - $PWD:/opt/code/packpack
+
+  tests:
+    <<: *shared-local
+    entrypoint: pytest tests
+    command: []
