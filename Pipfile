@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pymc3 = "*"
+jupyterlab = "*"
+matplotlib = "*"
+pytest = "*"
+pipfile = "*"
+
+[requires]
+python_version = "3.8"
