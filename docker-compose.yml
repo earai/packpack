@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+  # commands for local development with the host's code bound into a volume
+  local: &shared-local
+    image: packpack:latest
+    working_dir: /opt/code/packpack
+    volumes:
+      - $PWD:/opt/code/packpack
+
+  tests:
+    <<: *shared-local
+    entrypoint: pytest tests
+    command: []
