@@ -1,3 +1,4 @@
+from pymc3.model import PyMC3Variable
 from dataclasses import dataclass
 
 
@@ -5,6 +6,6 @@ from dataclasses import dataclass
 class Mace:
     """Mace tool"""
 
-    eye_sting: float
-    nose_burn: float
+    eye_sting: PyMC3Variable
+    nose_burn: PyMC3Variable
 

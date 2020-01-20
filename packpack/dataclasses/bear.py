@@ -1,3 +1,4 @@
+from pymc3.model import PyMC3Variable
 from dataclasses import dataclass
 
 
@@ -5,5 +6,5 @@ from dataclasses import dataclass
 class Bear:
     """Bear threat"""
 
-    sight: float
-    smell: float
+    sight: PyMC3Variable
+    smell: PyMC3Variable
