@@ -42,8 +42,8 @@ class BearMaceModel(object):
     def make_bear(cls, environment: Environment) -> Bear:
         latitude = environment.latitude
         deg_to_rad = np.pi/180.
-        sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**4.)
-        smell = Deterministic('smell', tt.cos(latitude*deg_to_rad)**4.)
+        sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**2.)
+        smell = Deterministic('smell', tt.cos(latitude*deg_to_rad)**2.)
         return Bear(sight=sight, smell=smell)
 
     @classmethod
