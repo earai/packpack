@@ -3,6 +3,7 @@ import pymc3 as pm
 from packpack.datamodels import Bear, Environment, Mace, EncounterResult
 from typing import Callable
 import theano.tensor as tt
+import numpy as np
 
 
 class BearMaceModel(object):
@@ -40,20 +41,22 @@ class BearMaceModel(object):
     @classmethod
     def make_bear(cls, environment: Environment) -> Bear:
         latitude = environment.latitude
-        sight = Deterministic('sight', latitude**2.)
-        smell = Deterministic('smell', 1./(latitude**2.+1.))
+        deg_to_rad = np.pi/180.
+        sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**2.)
+        smell = Deterministic('smell', tt.cos(latitude*deg_to_rad)**2.)
         return Bear(sight=sight, smell=smell)
 
     @classmethod
     def crude_bear_mace_interaction(cls, bear: Bear, mace: Mace):
-        logit_p = mace.nose_burn+mace.eye_sting-bear.smell-bear.sight
+        logit_p = 10.*(mace.nose_burn+mace.eye_sting-bear.smell-bear.sight)
         survived = pm.Bernoulli('survived', logit_p=logit_p, observed=1.)
         return EncounterResult(survived=survived)
 
     @classmethod
     def fancy_bear_mace_interaction(cls, bear: Bear, mace: Mace):
-        logit_p_nose = mace.nose_burn-bear.smell
-        logit_p_eyes = mace.eye_sting-bear.sight
-        logit_p = tt.max(logit_p_eyes, logit_p_nose)
+        logit_p_nose = 10*(mace.nose_burn-bear.smell)
+        logit_p_eyes = 10*(mace.eye_sting-bear.sight)
+        logit_p = tt.max(tt.stack([logit_p_nose, logit_p_eyes]))
+        #logit_p = tt.max(logit_p_eyes, logit_p_nose)
         survived = pm.Bernoulli('survived', logit_p=logit_p, observed=1.)
         return EncounterResult(survived=survived)
