@@ -35,7 +35,7 @@ class BearMaceModelRunner(object):
         plt.legend()
 
 
-    def visualize_trace(self):
+    def visualize_trace(self, include_scatters=False):
         df = self.trace_as_df
         bear = self.bear_mace_model.bear
         mace = self.bear_mace_model.mace
@@ -48,7 +48,8 @@ class BearMaceModelRunner(object):
             plt.subplot(2, 3, i+1)
             self.plot_marginal(k)
 
-        scatter_matrix(self.trace_as_df, figsize=(12,12), alpha=.05)
-        scatter_matrix(self.prior_samples_as_df[list(keys)], figsize=(12, 12), alpha=.05)
+        if include_scatters:
+            scatter_matrix(self.trace_as_df, figsize=(12,12), alpha=.05)
+            scatter_matrix(self.prior_samples_as_df[list(keys)], figsize=(12, 12), alpha=.05)
 
-        plt.show()
+
