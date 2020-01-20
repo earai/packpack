@@ -1,6 +1,6 @@
 import pymc3 as pm
 
-from packpack.dataclasses import Mace
+from packpack.datamodels import Mace
 
 
 def test_mace():
