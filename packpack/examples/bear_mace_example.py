@@ -7,7 +7,7 @@ def main():
     bear_mace_model = BearMaceModel(make_environment=BearMaceModel.make_environment,
                                     make_mace=BearMaceModel.make_mace,
                                     make_bear = BearMaceModel.make_bear,
-                                    make_encounter_result= BearMaceModel.crude_bear_mace_interaction
+                                    make_encounter_result= BearMaceModel.fancy_bear_mace_interaction
                                     )
 
     bear_mace_runner = BearMaceModelRunner(bear_mace_model)

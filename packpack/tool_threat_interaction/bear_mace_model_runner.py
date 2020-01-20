@@ -49,10 +49,6 @@ class BearMaceModelRunner(object):
             self.plot_marginal(k)
 
         scatter_matrix(self.trace_as_df, figsize=(12,12), alpha=.05)
-        plt.title("Posterior")
-
-
-        scatter_matrix(self.prior_samples_as_df, figsize=(12,12), alpha=.05)
-        plt.title("Prior")
+        scatter_matrix(self.prior_samples_as_df[list(keys)], figsize=(12, 12), alpha=.05)
 
         plt.show()

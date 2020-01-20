@@ -35,28 +35,30 @@ class BearMaceModel(object):
     @classmethod
     def make_mace(cls):
         eye_sting = pm.Uniform('eye_sting', 0., 1.)
-        nose_burn = pm.Deterministic('nose_burn', 1.-eye_sting)
+        nose_burn = pm.Deterministic('nose_burn', .5-eye_sting**2)
         return Mace(eye_sting=eye_sting, nose_burn= nose_burn)
 
     @classmethod
     def make_bear(cls, environment: Environment) -> Bear:
         latitude = environment.latitude
         deg_to_rad = np.pi/180.
-        sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**2.)
-        smell = Deterministic('smell', tt.cos(latitude*deg_to_rad)**2.)
+        sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**4.)
+        smell = Deterministic('smell', tt.cos(latitude*deg_to_rad)**4.)
         return Bear(sight=sight, smell=smell)
 
     @classmethod
     def crude_bear_mace_interaction(cls, bear: Bear, mace: Mace):
-        logit_p = 10.*(mace.nose_burn+mace.eye_sting-bear.smell-bear.sight)
+        stiffness=20.
+        logit_p = stiffness*(mace.nose_burn+mace.eye_sting-bear.smell-bear.sight)
         survived = pm.Bernoulli('survived', logit_p=logit_p, observed=1.)
         return EncounterResult(survived=survived)
 
     @classmethod
     def fancy_bear_mace_interaction(cls, bear: Bear, mace: Mace):
-        logit_p_nose = 10*(mace.nose_burn-bear.smell)
-        logit_p_eyes = 10*(mace.eye_sting-bear.sight)
-        logit_p = tt.max(tt.stack([logit_p_nose, logit_p_eyes]))
-        #logit_p = tt.max(logit_p_eyes, logit_p_nose)
+        stiffness = 20.
+        logit_p_nose = (mace.nose_burn-bear.smell)*stiffness
+        logit_p_eyes = (mace.eye_sting-bear.sight)*stiffness
+        logit_p = tt.min(tt.stack([logit_p_nose, logit_p_eyes]))
+
         survived = pm.Bernoulli('survived', logit_p=logit_p, observed=1.)
         return EncounterResult(survived=survived)
