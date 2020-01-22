@@ -31,7 +31,8 @@ USER $THIS_UID
 
 ENV PATH="/home/packpacker/.local/bin:$PATH"
 RUN pip install --user --upgrade pip
-RUN pip install --user -r requirements.txt
+RUN pip install --user pipenv
+RUN pipenv install --system --dev --ignore-pipfile
 RUN pip install --user -e .
 
 #bind volume for easy development

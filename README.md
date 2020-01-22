@@ -16,6 +16,10 @@ Once the image is built, you can run the tests for the project with:
 ```
 docker-compose run --rm tests
 ```
+
+>The Dockerfile uses `pipenv` to install packages into the container's 
+>system packages from `Pipfile.lock`. To update dependencies, update 
+>`Pipfile.lock` by using `pipenv install` into a virtualenv. 
  
 ## Pipenv
 You can also use `pipenv` to easily create a local 
