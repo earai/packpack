@@ -20,11 +20,9 @@ WORKDIR $CODE_DIR
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     touch /etc/sudoers && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
-    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers
-
-RUN useradd -m -s /bin/bash -N -u $THIS_UID $THIS_USER
-
-RUN chown $THIS_USER:$THIS_GID /opt/code/packpack && \
+    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
+    useradd -m -s /bin/bash -N -u $THIS_UID $THIS_USER && \
+    chown $THIS_USER:$THIS_GID /opt/code/packpack && \
     chmod g+w /etc/passwd
 RUN fix-permissions $HOME
 RUN fix-permissions "$(dirname $CODE_DIR)"
@@ -33,10 +31,8 @@ USER $THIS_UID
 
 ENV PATH="/home/packpacker/.local/bin:$PATH"
 RUN pip install --user --upgrade pip
-
 RUN pip install --user -r requirements.txt
 RUN pip install --user -e .
-
 
 #bind volume for easy development
 VOLUME /opt/code/packpack
