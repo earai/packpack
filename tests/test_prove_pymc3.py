@@ -6,6 +6,5 @@ def test_proof_model():
     """Just prove it runs"""
     m = build_proof_model()
     with m:
-        trace = pm.sample(50)
+        trace = pm.sample(50, tune=50)
     assert trace.report.ok
-
