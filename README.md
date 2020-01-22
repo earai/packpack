@@ -53,12 +53,11 @@ pipenv install
 And then `pipenv shell` to enter the virtualenv or `pipenv run` to run 
 scripts directly. 
 
-
->NB it is easy to forget to install the Python headers. The 
+>It is easy to forget to install the Python headers. The 
 >virtualenv will still be created, but if you try to `import pymc3`
 >you may see `ImportError: Version check of the existing lazylinker compiled file. Looking for version 0.211, but found None`. 
 >Make sure you have the python-dev package installed appropriate to the python version!
 
->NB the python3.8-tk package, which is necessary for matplotlib
+>The python3.8-tk package, which is necessary for matplotlib
 >to be able to render using the `tkagg` backend, may fail to install
 >if you already have e.g. python3-tk installed. 
