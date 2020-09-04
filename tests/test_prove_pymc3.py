@@ -8,4 +8,3 @@ def test_proof_model():
     with m:
         trace = pm.sample(50)
     assert trace.report.ok
-
