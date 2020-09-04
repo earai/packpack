@@ -29,17 +29,17 @@ class BearMaceModel(object):
         return model
 
     @classmethod
-    def make_environment(cls):
+    def make_simple_environment(cls):
         return Environment(latitude=pm.Uniform('latitude', -90., 90.))
 
     @classmethod
-    def make_mace(cls):
+    def make_simple_mace(cls):
         eye_sting = pm.Uniform('eye_sting', 0., 1.)
         nose_burn = pm.Deterministic('nose_burn', .5-eye_sting**2)
         return Mace(eye_sting=eye_sting, nose_burn= nose_burn)
 
     @classmethod
-    def make_bear(cls, environment: Environment) -> Bear:
+    def make_simple_bear(cls, environment: Environment) -> Bear:
         latitude = environment.latitude
         deg_to_rad = np.pi/180.
         sight = Deterministic('sight', tt.sin(latitude*deg_to_rad)**2.)
